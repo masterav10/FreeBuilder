@@ -23,16 +23,6 @@ import static org.inferred.freebuilder.processor.util.ModelUtils.asElement;
 import static org.inferred.freebuilder.processor.util.ModelUtils.findAnnotationMirror;
 import static org.inferred.freebuilder.processor.util.ModelUtils.maybeDeclared;
 
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
-
-import org.inferred.freebuilder.FreeBuilder;
-import org.inferred.freebuilder.processor.util.Excerpt;
-import org.inferred.freebuilder.processor.util.Excerpts;
-import org.inferred.freebuilder.processor.util.ModelUtils;
-import org.inferred.freebuilder.processor.util.ParameterizedType;
-
 import java.util.List;
 
 import javax.lang.model.element.Element;
@@ -44,6 +34,16 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+
+import org.inferred.freebuilder.FreeBuilder;
+import org.inferred.freebuilder.processor.util.Excerpt;
+import org.inferred.freebuilder.processor.util.Excerpts;
+import org.inferred.freebuilder.processor.util.ModelUtils;
+import org.inferred.freebuilder.processor.util.ParameterizedType;
+
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 
 abstract class BuildableType {
 
@@ -57,6 +57,7 @@ abstract class BuildableType {
     MERGE_DIRECTLY, TO_BUILDER_AND_MERGE
   }
 
+  public abstract TypeMirror type();
   public abstract ParameterizedType builderType();
   public abstract MergeBuilderMethod mergeBuilder();
   public abstract PartialToBuilderMethod partialToBuilder();
@@ -156,6 +157,7 @@ abstract class BuildableType {
     }
 
     return Optional.of(new Builder()
+        .type(candidateType)
         .builderType(ParameterizedType.from(builder))
         .mergeBuilder(mergeFromBuilderMethod)
         .partialToBuilder(partialToBuilderMethod)
