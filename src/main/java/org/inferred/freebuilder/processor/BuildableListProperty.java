@@ -23,6 +23,7 @@ import org.inferred.freebuilder.processor.util.SourceBuilder;
 import org.inferred.freebuilder.processor.util.Variable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -73,6 +74,7 @@ class BuildableListProperty extends PropertyCodeGenerator {
   public void addBuilderFieldAccessors(SourceBuilder code) {
     addValueInstanceAdd(code);
     addBuilderAdd(code);
+    addValueInstanceVarargsAdd(code);
     addPreStreamsValueInstanceAddAll(code);
     addPreStreamsBuilderAddAll(code);
     addClear(code);
@@ -104,6 +106,15 @@ class BuildableListProperty extends PropertyCodeGenerator {
               property.getField(),
               element.builderFactory().newBuilder(element.builderType(), EXPLICIT_TYPES))
           .addLine("  return (%s) this;", metadata.getBuilder()))
+        .addLine("}");
+  }
+
+  private void addValueInstanceVarargsAdd(SourceBuilder code) {
+    // TODO SafeVarargs
+    code.addLine("")
+        .addLine("public %s %s(%s... elements) {",
+            metadata.getBuilder(), addMethod(property), element.type())
+        .addLine("  return %s(%s.asList(elements));", addAllMethod(property), Arrays.class)
         .addLine("}");
   }
 
