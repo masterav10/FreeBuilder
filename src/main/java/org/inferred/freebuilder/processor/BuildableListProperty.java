@@ -5,6 +5,7 @@ import static org.inferred.freebuilder.processor.BuilderFactory.TypeInference.EX
 import static org.inferred.freebuilder.processor.BuilderMethods.addAllBuildersOfMethod;
 import static org.inferred.freebuilder.processor.BuilderMethods.addAllMethod;
 import static org.inferred.freebuilder.processor.BuilderMethods.addMethod;
+import static org.inferred.freebuilder.processor.BuilderMethods.clearMethod;
 import static org.inferred.freebuilder.processor.Util.erasesToAnyOf;
 import static org.inferred.freebuilder.processor.Util.upperBound;
 import static org.inferred.freebuilder.processor.util.Block.methodBody;
@@ -74,6 +75,7 @@ class BuildableListProperty extends PropertyCodeGenerator {
     addBuilderAdd(code);
     addPreStreamsValueInstanceAddAll(code);
     addPreStreamsBuilderAddAll(code);
+    addClear(code);
   }
 
   private void addValueInstanceAdd(SourceBuilder code) {
@@ -137,6 +139,14 @@ class BuildableListProperty extends PropertyCodeGenerator {
         .add(Excerpts.forEach(element.builderType(), "elementBuilders", addMethod(property)))
         .addLine("  return (%s) this;", metadata.getBuilder());
     code.add(body)
+        .addLine("}");
+  }
+
+  private void addClear(SourceBuilder code) {
+    code.addLine("")
+        .addLine("public %s %s() {", metadata.getBuilder(), clearMethod(property))
+        .addLine("  %s.clear();", property.getField())
+        .addLine("  return (%s) this;", metadata.getBuilder())
         .addLine("}");
   }
 
