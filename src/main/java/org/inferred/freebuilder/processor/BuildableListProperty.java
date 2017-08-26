@@ -142,6 +142,19 @@ class BuildableListProperty extends PropertyCodeGenerator {
 
   @Override
   public void addFinalFieldAssignment(Block code, Excerpt finalField, String builder) {
+    addFieldAssignment(code, finalField, builder, "build");
+  }
+
+  @Override
+  public void addPartialFieldAssignment(Block code, Excerpt finalField, String builder) {
+    addFieldAssignment(code, finalField, builder, "buildPartial");
+  }
+
+  private void addFieldAssignment(
+      Block code,
+      Excerpt finalField,
+      String builder,
+      String buildMethod) {
     Variable fieldBuilder = new Variable(property.getName() + "Builder");
     Variable fieldElement = new Variable("element");
     code.addLine("%s<%s> %s = %s.builder();",
@@ -151,7 +164,7 @@ class BuildableListProperty extends PropertyCodeGenerator {
             ImmutableList.class)
         .addLine("for (%s %s : %s) {",
             element.builderType(), fieldElement, property.getField().on(builder))
-        .addLine("  %s.add(%s.build());", fieldBuilder, fieldElement)
+        .addLine("  %s.add(%s.%s());", fieldBuilder, fieldElement, buildMethod)
         .addLine("}")
         .addLine("%s = %s.build();", finalField, fieldBuilder);
   }
