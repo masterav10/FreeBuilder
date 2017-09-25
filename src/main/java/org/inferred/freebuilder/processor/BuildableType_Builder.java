@@ -7,7 +7,7 @@ import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.EnumSet;
 import javax.annotation.Generated;
-import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.DeclaredType;
 import org.inferred.freebuilder.processor.util.Excerpt;
 import org.inferred.freebuilder.processor.util.ParameterizedType;
 
@@ -46,7 +46,7 @@ abstract class BuildableType_Builder {
     }
   }
 
-  private TypeMirror type;
+  private DeclaredType type;
   private ParameterizedType builderType;
   private BuildableType.MergeBuilderMethod mergeBuilder;
   private BuildableType.PartialToBuilderMethod partialToBuilder;
@@ -61,7 +61,7 @@ abstract class BuildableType_Builder {
    * @return this {@code Builder} object
    * @throws NullPointerException if {@code type} is null
    */
-  public BuildableType.Builder type(TypeMirror type) {
+  public BuildableType.Builder type(DeclaredType type) {
     this.type = Preconditions.checkNotNull(type);
     _unsetProperties.remove(BuildableType_Builder.Property.TYPE);
     return (BuildableType.Builder) this;
@@ -72,7 +72,7 @@ abstract class BuildableType_Builder {
    *
    * @throws IllegalStateException if the field has not been set
    */
-  public TypeMirror type() {
+  public DeclaredType type() {
     Preconditions.checkState(
         !_unsetProperties.contains(BuildableType_Builder.Property.TYPE), "type not set");
     return type;
@@ -309,7 +309,7 @@ abstract class BuildableType_Builder {
   }
 
   private static final class Value extends BuildableType {
-    private final TypeMirror type;
+    private final DeclaredType type;
     private final ParameterizedType builderType;
     private final BuildableType.MergeBuilderMethod mergeBuilder;
     private final BuildableType.PartialToBuilderMethod partialToBuilder;
@@ -326,7 +326,7 @@ abstract class BuildableType_Builder {
     }
 
     @Override
-    public TypeMirror type() {
+    public DeclaredType type() {
       return type;
     }
 
@@ -415,7 +415,7 @@ abstract class BuildableType_Builder {
   }
 
   private static final class Partial extends BuildableType {
-    private final TypeMirror type;
+    private final DeclaredType type;
     private final ParameterizedType builderType;
     private final BuildableType.MergeBuilderMethod mergeBuilder;
     private final BuildableType.PartialToBuilderMethod partialToBuilder;
@@ -434,7 +434,7 @@ abstract class BuildableType_Builder {
     }
 
     @Override
-    public TypeMirror type() {
+    public DeclaredType type() {
       if (_unsetProperties.contains(BuildableType_Builder.Property.TYPE)) {
         throw new UnsupportedOperationException("type not set");
       }

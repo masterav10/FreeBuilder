@@ -45,7 +45,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 
-abstract class BuildableType {
+public abstract class BuildableType {
 
   /** How to merge the values from one Builder into another. */
   public enum MergeBuilderMethod {
@@ -57,7 +57,7 @@ abstract class BuildableType {
     MERGE_DIRECTLY, TO_BUILDER_AND_MERGE
   }
 
-  public abstract TypeMirror type();
+  public abstract DeclaredType type();
   public abstract ParameterizedType builderType();
   public abstract MergeBuilderMethod mergeBuilder();
   public abstract PartialToBuilderMethod partialToBuilder();
@@ -167,7 +167,7 @@ abstract class BuildableType {
     }
 
     return Optional.of(new Builder()
-        .type(candidateType)
+        .type(type)
         .builderType(builderType)
         .mergeBuilder(mergeFromBuilderMethod)
         .partialToBuilder(partialToBuilderMethod)
